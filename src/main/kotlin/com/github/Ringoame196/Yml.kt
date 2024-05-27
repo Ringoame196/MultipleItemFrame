@@ -5,9 +5,6 @@ import java.io.File
 
 class Yml(private val file: File) {
     private fun acquisitionYml(): YamlConfiguration {
-        if (!file.exists()) {
-            file.mkdirs()
-        }
         return YamlConfiguration.loadConfiguration(file)
     }
     fun acquisitionIntValue(key: String): Int {
