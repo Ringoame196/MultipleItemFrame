@@ -1,6 +1,7 @@
 package com.github.Ringoame196
 
 import org.bukkit.plugin.java.JavaPlugin
+import java.io.File
 
 class Main : JavaPlugin() {
     override fun onEnable() {
@@ -9,8 +10,8 @@ class Main : JavaPlugin() {
         val messageName = "message.yml"
         val event = Events(this, dataFileName, messageName)
         server.pluginManager.registerEvents(event, this)
-        saveResource(dataFileName, false)
-        saveResource(messageName, false)
+        if (!File(dataFileName).exists()) saveResource(dataFileName, false)
+        if (!File(messageName).exists())saveResource(messageName, false)
         saveDefaultConfig()
     }
 }
