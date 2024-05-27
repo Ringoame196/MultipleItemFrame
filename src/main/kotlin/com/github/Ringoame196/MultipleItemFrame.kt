@@ -1,33 +1,32 @@
 package com.github.Ringoame196
 
 import org.bukkit.entity.ItemFrame
-import org.bukkit.plugin.Plugin
 import java.io.File
 
-class MultipleItemFrame(private val itemFrame: ItemFrame, private val plugin: Plugin) {
-    private val file = File(plugin.dataFolder, "data.yml")
-    private val yml = Yml(file)
+class MultipleItemFrame(private val itemFrame: ItemFrame, dataFile: File) {
+    private val yml = Yml(dataFile)
     private val itemFrameUUID = itemFrame.uniqueId.toString()
     private val countKey = "$itemFrameUUID.count"
     private val countDisplayKey = "$itemFrameUUID.countDisplayKey"
     private val countDisplay = CountDisplay(yml, itemFrame, countDisplayKey)
     fun additionItem() {
-        val count = acquisitionCount()
-        yml.setValue(countKey, count + 1)
-        countDisplay.display(count + 1)
+        val count = acquisitionCount() + 1
+        yml.setValue(countKey, count)
+        countDisplay.display(count)
     }
     fun fetchItems() {
         val count = acquisitionCount()
-        if (count == 0) return
+        if (count == 0) return // そもそもデータがなければ実行しない
         dropItemFrameItem(count)
         countDisplay.delete()
         yml.setValue(itemFrameUUID, null)
     }
     private fun dropItemFrameItem(amount: Int) {
         val location = itemFrame.location
+        val world = location.world
         val item = itemFrame.item.clone()
         item.amount = amount
-        location.world?.dropItem(location, item)
+        world?.dropItem(location, item)
     }
     private fun acquisitionCount(): Int {
         return yml.acquisitionIntValue(countKey)
