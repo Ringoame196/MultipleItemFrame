@@ -9,5 +9,6 @@ class Main : JavaPlugin() {
         val event = Events(this, dataFileName)
         server.pluginManager.registerEvents(event, this)
         saveResource(dataFileName, false)
+        saveConfig()
     }
 }
