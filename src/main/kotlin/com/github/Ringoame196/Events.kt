@@ -11,8 +11,9 @@ import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.plugin.Plugin
 import java.io.File
 
-class Events(private val plugin: Plugin, dataFileName: String) : Listener {
+class Events(private val plugin: Plugin, dataFileName: String, messageFileName: String) : Listener {
     private val dataFile = File(plugin.dataFolder, dataFileName)
+    private val messageFile = File(plugin.dataFolder, messageFileName)
     @EventHandler
     fun onPlayerInteractEntity(e: PlayerInteractEntityEvent) {
         val player = e.player
@@ -21,7 +22,7 @@ class Events(private val plugin: Plugin, dataFileName: String) : Listener {
         if (!player.isSneaking) return
         if (itemFrame !is ItemFrame) return
 
-        val multipleItemFrame = MultipleItemFrame(plugin, itemFrame, dataFile)
+        val multipleItemFrame = MultipleItemFrame(plugin, itemFrame, dataFile, messageFile)
         val user = User(player)
 
         val itemFrameItem = itemFrame.item.clone()
@@ -40,14 +41,14 @@ class Events(private val plugin: Plugin, dataFileName: String) : Listener {
     fun onEntityDamage(e: EntityDamageEvent) {
         val itemFrame = e.entity
         if (itemFrame !is ItemFrame) return
-        val multipleItemFrame = MultipleItemFrame(plugin, itemFrame, dataFile)
+        val multipleItemFrame = MultipleItemFrame(plugin, itemFrame, dataFile, messageFile)
         multipleItemFrame.fetchItems()
     }
     @EventHandler
     fun onHangingBreak(e: HangingBreakEvent) {
         val itemFrame = e.entity
         if (itemFrame !is ItemFrame) return
-        val multipleItemFrame = MultipleItemFrame(plugin, itemFrame, dataFile)
+        val multipleItemFrame = MultipleItemFrame(plugin, itemFrame, dataFile, messageFile)
         multipleItemFrame.fetchItems()
     }
 }

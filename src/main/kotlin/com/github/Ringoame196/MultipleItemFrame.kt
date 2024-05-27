@@ -1,18 +1,18 @@
 package com.github.Ringoame196
 
-import org.bukkit.ChatColor
 import org.bukkit.Sound
 import org.bukkit.entity.ItemFrame
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 import java.io.File
 
-class MultipleItemFrame(private val plugin: Plugin, private val itemFrame: ItemFrame, dataFile: File) {
-    private val yml = Yml(dataFile)
+class MultipleItemFrame(private val plugin: Plugin, private val itemFrame: ItemFrame, dataFile: File, messageFile: File) {
+    private val dataFile = Yml(dataFile)
+    private val messageFile = Yml(messageFile)
     private val itemFrameUUID = itemFrame.uniqueId.toString()
     private val countKey = "$itemFrameUUID.count"
     private val countDisplayKey = "$itemFrameUUID.countDisplayKey"
-    private val countDisplay = CountDisplay(yml, itemFrame, countDisplayKey)
+    private val countDisplay = CountDisplay(this.dataFile, itemFrame, countDisplayKey)
     fun additionItem(player: Player): Boolean {
         val maxCount = plugin.config.getInt("maxCount")
         val count = acquisitionCount() + 1
@@ -20,7 +20,7 @@ class MultipleItemFrame(private val plugin: Plugin, private val itemFrame: ItemF
             sendOverMessage(player)
             return false
         }
-        yml.setValue(countKey, count)
+        dataFile.setValue(countKey, count)
         countDisplay.display(count)
         return true
     }
@@ -29,7 +29,7 @@ class MultipleItemFrame(private val plugin: Plugin, private val itemFrame: ItemF
         if (count == 0) return // そもそもデータがなければ実行しない
         dropItemFrameItem(count)
         countDisplay.delete()
-        yml.setValue(itemFrameUUID, null)
+        dataFile.setValue(itemFrameUUID, null)
     }
     private fun dropItemFrameItem(amount: Int) {
         val location = itemFrame.location
@@ -39,10 +39,10 @@ class MultipleItemFrame(private val plugin: Plugin, private val itemFrame: ItemF
         world?.dropItem(location, item)
     }
     private fun acquisitionCount(): Int {
-        return yml.acquisitionIntValue(countKey)
+        return dataFile.acquisitionIntValue(countKey)
     }
     private fun sendOverMessage(player: Player) {
-        val message = "${ChatColor.RED}アイテムの最大数をオーバーしました"
+        val message = messageFile.acquisitionStringValue("OverMessage")
         player.sendMessage(message)
         player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BELL, 1f, 1f)
     }

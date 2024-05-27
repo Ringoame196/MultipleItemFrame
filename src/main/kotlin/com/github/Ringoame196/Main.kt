@@ -6,9 +6,11 @@ class Main : JavaPlugin() {
     override fun onEnable() {
         super.onEnable()
         val dataFileName = "data.yml"
-        val event = Events(this, dataFileName)
+        val messageName = "message.yml"
+        val event = Events(this, dataFileName, messageName)
         server.pluginManager.registerEvents(event, this)
         saveResource(dataFileName, false)
-        saveConfig()
+        saveResource(messageName, false)
+        saveDefaultConfig()
     }
 }
