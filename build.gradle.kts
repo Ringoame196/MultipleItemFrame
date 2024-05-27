@@ -56,7 +56,6 @@ tasks.named("build") {
         }
     }
 }
-
 task<LaunchMinecraftServerTask>("buildAndLaunchServer") {
     dependsOn("build")
     doFirst {

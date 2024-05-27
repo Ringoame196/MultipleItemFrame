@@ -10,11 +10,15 @@ class Yml(private val file: File) {
         }
         return YamlConfiguration.loadConfiguration(file)
     }
-    fun acquisitionValue(key: String): Int {
+    fun acquisitionIntValue(key: String): Int {
         val ymlFile = acquisitionYml()
         return ymlFile.getInt(key)
     }
-    fun setValue(key: String, value: Int?) {
+    fun acquisitionStringValue(key: String): String? {
+        val ymlFile = acquisitionYml()
+        return ymlFile.getString(key)
+    }
+    fun setValue(key: String, value: Any?) {
         val ymlFile = acquisitionYml()
         ymlFile.set(key, value)
         ymlFile.save(file)

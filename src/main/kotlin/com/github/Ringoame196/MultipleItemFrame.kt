@@ -1,29 +1,35 @@
 package com.github.Ringoame196
 
-import org.bukkit.Bukkit
 import org.bukkit.entity.ItemFrame
 import org.bukkit.plugin.Plugin
 import java.io.File
 
 class MultipleItemFrame(private val itemFrame: ItemFrame, private val plugin: Plugin) {
-    private val file = File(plugin.dataFolder, "countData.yml")
+    private val file = File(plugin.dataFolder, "data.yml")
     private val yml = Yml(file)
     private val itemFrameUUID = itemFrame.uniqueId.toString()
+    private val countKey = "$itemFrameUUID.count"
+    private val coundDisplayKey = "$itemFrameUUID.coundDisplayKey"
+    private val countDisplay = CountDisplay(yml, itemFrame, coundDisplayKey)
     fun additionItem() {
-        var count = acquisitionCount()
-        count ++
-        yml.setValue(itemFrameUUID, count)
-        Bukkit.broadcastMessage((count + 1).toString())
+        val count = acquisitionCount()
+        yml.setValue(countKey, count + 1)
+        countDisplay.display(count + 1)
     }
     fun fetchItems() {
         val count = acquisitionCount()
-        val item = itemFrame.item
-        val location = itemFrame.location
-        item.amount = count
-        location.world?.dropItem(location, item)
+        if (count == 0) return
+        dropItemFrameItem(count)
+        countDisplay.delete()
         yml.setValue(itemFrameUUID, null)
     }
+    private fun dropItemFrameItem(amount: Int) {
+        val location = itemFrame.location
+        val item = itemFrame.item.clone()
+        item.amount = amount
+        location.world?.dropItem(location, item)
+    }
     private fun acquisitionCount(): Int {
-        return yml.acquisitionValue(itemFrameUUID)
+        return yml.acquisitionIntValue(countKey)
     }
 }
