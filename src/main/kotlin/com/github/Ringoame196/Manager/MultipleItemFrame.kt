@@ -1,4 +1,4 @@
-package com.github.Ringoame196
+package com.github.Ringoame196.Manager
 
 import com.github.Ringoame196.FileManagement.Yml
 import com.github.Ringoame196.Display.CountDisplay

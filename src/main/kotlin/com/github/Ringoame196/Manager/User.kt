@@ -1,4 +1,4 @@
-package com.github.Ringoame196
+package com.github.Ringoame196.Manager
 
 import org.bukkit.entity.Player
 

@@ -1,6 +1,6 @@
 package com.github.Ringoame196.Event
 
-import com.github.Ringoame196.MultipleItemFrame
+import com.github.Ringoame196.Manager.MultipleItemFrame
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.entity.ItemFrame
 import org.bukkit.event.EventHandler

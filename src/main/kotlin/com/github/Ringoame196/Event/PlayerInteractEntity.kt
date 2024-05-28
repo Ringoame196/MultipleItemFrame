@@ -1,7 +1,7 @@
 package com.github.Ringoame196.Event
 
-import com.github.Ringoame196.MultipleItemFrame
-import com.github.Ringoame196.User
+import com.github.Ringoame196.Manager.MultipleItemFrame
+import com.github.Ringoame196.Manager.User
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.configuration.file.FileConfiguration
