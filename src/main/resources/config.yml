@@ -1,1 +1,2 @@
 maxCount : 64 # Maximum number of items in an itemFrame (額縁に入れれるアイテムの最大数)
+blockTag : "" #An itemFrame with this tag is not triggered.(このタグがついている額縁は発動しない)

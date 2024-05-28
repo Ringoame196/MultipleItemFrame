@@ -1,20 +1,29 @@
 package com.github.Ringoame196
 
+import com.github.Ringoame196.Data.Yml
+import com.github.Ringoame196.Display.CountDisplay
 import org.bukkit.Sound
+import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.entity.ItemFrame
 import org.bukkit.entity.Player
-import org.bukkit.plugin.Plugin
 import java.io.File
 
-class MultipleItemFrame(private val plugin: Plugin, private val itemFrame: ItemFrame, dataFile: File, messageFile: File) {
+class MultipleItemFrame(private val itemFrame: ItemFrame, dataFile: File, messageFile: File) {
     private val dataFile = Yml(dataFile)
     private val messageFile = Yml(messageFile)
     private val itemFrameUUID = itemFrame.uniqueId.toString()
     private val countKey = "$itemFrameUUID.count"
     private val countDisplayKey = "$itemFrameUUID.countDisplayKey"
     private val countDisplay = CountDisplay(this.dataFile, itemFrame, countDisplayKey)
-    fun additionItem(player: Player): Boolean {
-        val maxCount = plugin.config.getInt("maxCount")
+
+    fun checkBlockItemFrame(config: FileConfiguration): Boolean {
+        val blockTag = config.getString("blockTag") ?: return true
+        if (blockTag == "") return true
+        return !itemFrame.scoreboardTags.contains(blockTag)
+    }
+
+    fun additionItem(player: Player, config: FileConfiguration): Boolean {
+        val maxCount = config.getInt("maxCount")
         val count = acquisitionCount() + 1
         if (count > maxCount) {
             sendOverMessage(player)
