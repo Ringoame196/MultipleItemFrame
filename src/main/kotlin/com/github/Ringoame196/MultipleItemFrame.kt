@@ -1,6 +1,6 @@
 package com.github.Ringoame196
 
-import com.github.Ringoame196.File.Yml
+import com.github.Ringoame196.FileManagement.Yml
 import com.github.Ringoame196.Display.CountDisplay
 import org.bukkit.Sound
 import org.bukkit.configuration.file.FileConfiguration
