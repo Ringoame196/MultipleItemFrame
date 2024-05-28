@@ -1,4 +1,4 @@
-package com.github.Ringoame196.Data
+package com.github.Ringoame196.File
 
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File

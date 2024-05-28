@@ -15,11 +15,13 @@ class Main : JavaPlugin() {
         val dataFile = File(dataFolderPath, dataFileName)
         val messageFile = File(dataFolderPath, messageFileName)
         val config = this.config
+
         server.pluginManager.registerEvents(PlayerInteractEntity(dataFile, messageFile, config), this)
         server.pluginManager.registerEvents(EntityDamageEvent(dataFile, messageFile, config), this)
         server.pluginManager.registerEvents(HangingBreakEvent(dataFile, messageFile, config), this)
         if (!File(dataFileName).exists()) saveResource(dataFileName, false)
         if (!File(messageFileName).exists())saveResource(messageFileName, false)
+
         saveDefaultConfig()
     }
 }

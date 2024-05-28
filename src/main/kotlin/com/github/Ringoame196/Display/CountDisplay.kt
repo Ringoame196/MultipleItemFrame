@@ -1,6 +1,6 @@
 package com.github.Ringoame196.Display
 
-import com.github.Ringoame196.Data.Yml
+import com.github.Ringoame196.File.Yml
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.ArmorStand
