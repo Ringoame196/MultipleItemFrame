@@ -8,7 +8,7 @@ import org.bukkit.entity.ItemFrame
 import org.bukkit.entity.Player
 import java.io.File
 
-class MultipleItemFrame(private val itemFrame: ItemFrame, dataFile: File, messageFile: File) {
+class MultipleItemFrameManager(private val itemFrame: ItemFrame, dataFile: File, messageFile: File) {
     private val dataFile = Yml(dataFile)
     private val messageFile = Yml(messageFile)
     private val itemFrameUUID = itemFrame.uniqueId.toString()

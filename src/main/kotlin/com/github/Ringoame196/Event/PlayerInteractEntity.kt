@@ -1,7 +1,7 @@
 package com.github.Ringoame196.Event
 
-import com.github.Ringoame196.Manager.MultipleItemFrame
-import com.github.Ringoame196.Manager.User
+import com.github.Ringoame196.Manager.MultipleItemFrameManager
+import com.github.Ringoame196.Manager.UserManager
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.configuration.file.FileConfiguration
@@ -20,10 +20,10 @@ class PlayerInteractEntity(private val dataFile: File, private val messageFile: 
         if (!player.isSneaking) return
         if (itemFrame !is ItemFrame) return
 
-        val multipleItemFrame = MultipleItemFrame(itemFrame, dataFile, messageFile)
-        val user = User(player)
+        val multipleItemFrameManager = MultipleItemFrameManager(itemFrame, dataFile, messageFile)
+        val userManager = UserManager(player)
 
-        if (!multipleItemFrame.checkBlockItemFrame(config)) return
+        if (!multipleItemFrameManager.checkBlockItemFrame(config)) return
 
         val itemFrameItem = itemFrame.item.clone()
         if (playerItem.type == Material.AIR || itemFrameItem.type == Material.AIR) return
@@ -32,9 +32,9 @@ class PlayerInteractEntity(private val dataFile: File, private val messageFile: 
         itemFrameItem.amount = 1
 
         if (playerItem != itemFrameItem) return
-        if (!multipleItemFrame.additionItem(player, config)) return
+        if (!multipleItemFrameManager.additionItem(player, config)) return
         e.isCancelled = true
-        user.reduceMainHandItem()
+        userManager.reduceMainHandItem()
         player.playSound(player, Sound.BLOCK_DISPENSER_FAIL, 1f, 1f)
     }
 }
