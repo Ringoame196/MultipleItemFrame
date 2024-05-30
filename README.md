@@ -10,7 +10,7 @@ https://github.com/Ringoame196/MultipleItemFrame/assets/132573268/c7f60bca-592f-
 額縁内のアイテムを取り出す or 額縁の破壊で、一気にアイテムを出すことが可能 
 
 ## configファイル
-maxCount - 額縁に入れることができる最大数設定
+maxCount - 額縁に入れることができる最大数設定<p>
 blockTag - このタグがついている額縁は発動しない
 
 ## 開発環境
