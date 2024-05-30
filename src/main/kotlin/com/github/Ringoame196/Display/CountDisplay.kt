@@ -20,7 +20,7 @@ class CountDisplay(private val yml: Yml, private val itemFrame: ItemFrame, priva
     }
     private fun make(count: Int) {
         val location = itemFrame.location
-        val armorStand = summonArmorStand(location, count) ?: return
+        val armorStand = summonArmorStand(location, count + 1) ?: return
         yml.setValue(key, armorStand.uniqueId.toString())
     }
     private fun summonArmorStand(location: Location, count: Int): ArmorStand? {
@@ -43,7 +43,7 @@ class CountDisplay(private val yml: Yml, private val itemFrame: ItemFrame, priva
         val uuid = acquisitionUUID() ?: return
         val countDisplay = acquisitionCountDisplay(uuid)
         if (countDisplay == null) make(count)
-        else countDisplay.customName = "${count}個"
+        else countDisplay.customName = "${count + 1}個"
     }
     private fun acquisitionUUID(): UUID? {
         val uuidString = yml.acquisitionStringValue(key)
