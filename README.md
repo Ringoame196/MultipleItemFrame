@@ -1,22 +1,18 @@
 # MultipleItemFrame
 
-## plugin.yml
+## プラグイン説明
 
-ビルド時に自動生成されます。[build.gradle.kts](build.gradle.kts) の以下の箇所で設定できます。
-書き方は https://github.com/Minecrell/plugin-yml の Bukkit kotlin-dsl を見てください。
+## コマンド
 
-```kotlin
-configure<BukkitPluginDescription> {
-    // 内容
-}
-```
+## 使い方
 
-## タスク
+## configファイル
 
-### プラグインのビルド `build`
+## 開発環境
+- Minecraft Version : 1.19.3
+- Kotlin Version : 1.6.10
 
-`build/libs` フォルダに `.jar` を生成します。
-
-### テストサーバーの起動 `buildAndLaunchServer`
-
-`:25565` でテストサーバーを起動します。
+## プロジェクト情報
+- プロジェクトパス : Ringoame196/MultipleItemFrame.git
+- 開発者名 : Ringoame196
+- 開発開始日 : 2024-05-30
