@@ -49,27 +49,49 @@ tasks.withType<ShadowJar> {
 
 tasks.named("build") {
     dependsOn("shadowJar")
-    doFirst {
-        copy {
-            from(buildDir.resolve("libs/${project.name}.jar"))
-            into("D:/デスクトップ/Twitterサーバー/plugins")
+    // プラグインを特定のパスへ自動コピー
+    val copyFilePath = "M:/TwitterServer/plugins/" // コピー先のフォルダーパス
+    val copyFile = File(copyFilePath)
+    if (copyFile.exists() && copyFile.isDirectory) {
+        doFirst {
+            copy {
+                from(buildDir.resolve("libs/${project.name}.jar"))
+                into(copyFile)
+            }
         }
-    }
-}
-task<LaunchMinecraftServerTask>("buildAndLaunchServer") {
-    dependsOn("build")
-    doFirst {
-        copy {
-            from(buildDir.resolve("libs/${project.name}.jar"))
-            into(buildDir.resolve("MinecraftServer/plugins"))
-        }
-    }
+        doLast {
+            val port = 25585
+            val ip = "192.168.0.21"
+            val apiUrl = "http://$ip:$port/plugin?name=${project.name}"
 
-    jarUrl.set(JarUrl.Paper(pluginVersion))
-    jarName.set("server.jar")
-    serverDirectory.set(buildDir.resolve("MinecraftServer"))
-    nogui.set(true)
-    agreeEula.set(true)
+            try {
+                val url = URL(apiUrl)
+                val connection = url.openConnection() as HttpURLConnection
+
+                // タイムアウト設定（重要）
+                connection.connectTimeout = 2000  // 2秒でタイムアウト
+                connection.readTimeout = 2000
+
+                connection.requestMethod = "GET"
+                connection.connect()
+
+                if (connection.responseCode == HttpURLConnection.HTTP_OK) {
+                    val response = connection.inputStream.bufferedReader().use { it.readText() }
+                    println("API Response: $response")
+                } else {
+                    println("Server responded with error code: ${connection.responseCode}")
+                }
+
+                connection.disconnect()
+            } catch (e: java.net.ConnectException) {
+                println("Warning: サーバーに接続できません（オフラインかもしれません）")
+            } catch (e: java.net.SocketTimeoutException) {
+                println("Warning: 接続がタイムアウトしました")
+            } catch (e: Exception) {
+                println("Warning: API通信で予期しないエラーが発生しました: ${e.message}")
+            }
+        }
+    }
 }
 
 task<SetupTask>("setup")
